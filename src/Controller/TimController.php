@@ -16,4 +16,10 @@ class TimController extends AbstractController
             'controller_name' => 'TimController',
         ]);
     }
+    /**
+     * @Route("/", name="pocetakStranice")
+     */
+    public function pocetna(){
+        return $this->render('tim/pocetna.html.twig');
+    }
 }
