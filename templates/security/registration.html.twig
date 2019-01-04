@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+{% block title %}Registracija korisnika{% endblock %}
+
+{% block body %}
+<div class="col-sm-12">
+    {{ form_start(forma) }}
+
+    {{ form_widget(forma) }}
+
+    <input  class="btn btn-lg btn-primary btn-block" type="submit" value="Register">
+
+
+    {{ form_end(forma) }}
+
+</div>
+{% endblock %}
