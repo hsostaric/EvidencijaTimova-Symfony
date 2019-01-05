@@ -58,6 +58,11 @@ class Korisnik implements UserInterface
      */
     private $Prezime;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $lozinkaBackUp;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -187,6 +192,18 @@ class Korisnik implements UserInterface
     public function setPrezime(?string $Prezime): self
     {
         $this->Prezime = $Prezime;
+
+        return $this;
+    }
+
+    public function getLozinkaBackUp(): ?string
+    {
+        return $this->lozinkaBackUp;
+    }
+
+    public function setLozinkaBackUp(string $lozinkaBackUp): self
+    {
+        $this->lozinkaBackUp = $lozinkaBackUp;
 
         return $this;
     }
