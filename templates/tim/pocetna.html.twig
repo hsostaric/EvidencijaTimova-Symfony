@@ -3,5 +3,6 @@
 {% block title %}Pocetna stranica{% endblock %}
 {% block body %}
     {{ parent() }}
+    {% if is_granted('ROLE_USER') %}<p>{{ app.user.username }}</p>{% endif %}
     <h1>Bok</h1>
 {% endblock %}

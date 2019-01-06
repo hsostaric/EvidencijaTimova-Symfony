@@ -83,6 +83,7 @@ class KorisnikController extends AbstractController
                     $repository->persist($korisnik[0]);
                     $repository->flush();
 
+
                     return $this->redirectToRoute('pocetakStranice');
                 }
                 else $greske[]="Aktivacijski kod se ne podudara sa generiranim/korisnik je već aktiviran";

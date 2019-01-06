@@ -78,6 +78,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
             throw new InvalidCsrfTokenException();
         }
         $users=$this->korisnikRepository->findOneBy(['username'=>$credentials['username']]);
+
         return $users;
     }
 
