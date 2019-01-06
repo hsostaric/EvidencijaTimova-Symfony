@@ -19,6 +19,11 @@ class KorisnikRepository extends ServiceEntityRepository
         parent::__construct($registry, Korisnik::class);
     }
 
+    public function PronalazakKorisnika(string $username){
+        $qb= $this->createQueryBuilder('korisnik')->andWhere('korisnik.username=:val')->setParameter('val',$username)->getQuery()->getResult();
+        return $qb;
+    }
+
     // /**
     //  * @return Korisnik[] Returns an array of Korisnik objects
     //  */

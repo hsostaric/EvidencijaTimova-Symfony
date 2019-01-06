@@ -10,8 +10,13 @@
 
     <input  class="btn btn-lg btn-primary btn-block" type="submit" value="Register">
 
-
+    {% if errors %}
+        {% for greska in errors %}
+        <p>{% greska %}</p><br>
+        {% endfor %}
+    {% endif %}
     {{ form_end(forma) }}
 
 </div>
+    <p><a href="{{ path('reg_config') }}">Potvrda registracije</a></p>
 {% endblock %}

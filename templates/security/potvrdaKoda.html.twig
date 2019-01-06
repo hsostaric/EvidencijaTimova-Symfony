@@ -9,11 +9,16 @@ Potvrda registracije
         <label for="username" class="sr-only">Email address</label>
         <input type="text" name="username" id="username" class="form-control" placeholder="Vaše korisničko ime" required autofocus>
         <label for="inputPassword" class="sr-only">Password</label>
-        <input type="text" name="potvrdnikod" id="potvrdniKod" class="form-control" placeholder="Unesite vaš kod" required>
+        <input type="text" name="potvrdniKod" id="potvrdniKod" class="form-control" placeholder="Unesite vaš kod" required>
 
 
         <button class="btn btn-lg btn-primary btn-block" type="submit">
             Pošalji
         </button>
     </form>
+    {% if greska %}
+    {% for greska in errors %}
+        <p>{% greska %}</p><br>
+    {% endfor %}
+    {% endif %}
 {% endblock %}
