@@ -3,6 +3,9 @@
 Potvrda registracije
 {% endblock %}
 {% block body %}
+    <div class="summary">
+
+
     <form class="form-signin" method="post">
 
         <h1 class="h3 mb-3 font-weight-normal">Unesite podatke</h1>
@@ -16,6 +19,7 @@ Potvrda registracije
             Pošalji
         </button>
     </form>
+    </div>
     {% if errors %}
         {% for greska in errors %}
             <p>{{ greska }}</p><br>

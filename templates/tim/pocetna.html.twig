@@ -2,7 +2,9 @@
 
 {% block title %}Pocetna stranica{% endblock %}
 {% block body %}
+    <div class="summary">
     {{ parent() }}
-    {% if is_granted('ROLE_USER') %}<p>{{ app.user.username }}</p>{% endif %}
-    <h1>Bok</h1>
+    {% if is_granted('ROLE_USER') %}<h1>Bok {{ app.user.username }}</h1>{% endif %}
+
+    </div>
 {% endblock %}

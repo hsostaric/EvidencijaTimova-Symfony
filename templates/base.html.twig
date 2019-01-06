@@ -43,7 +43,7 @@
                         <img class="nav-profile-img rounded-circle" src="../images/profilna.jpg">
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="#">Profile</a>
+                        <a class="dropdown-item" href="{{ path("user_personal",{ id: app.user.id}) }}">Profile</a>
 
                         <a class="dropdown-item" href="{{ path('user_logout') }}">Logout</a>
                     </div>

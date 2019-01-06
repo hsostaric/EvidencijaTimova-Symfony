@@ -223,7 +223,11 @@ html {height:100%}
     }
 }
 
+div.summary{
+    margin: 0 auto;
+    width: 80%;
 
+}
 
 /* FOOTER */
 

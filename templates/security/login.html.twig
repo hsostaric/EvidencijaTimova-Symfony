@@ -6,6 +6,7 @@
     {% if errors %}
         <div>{{ errors.messageKey|trans(errors.messageData, 'security') }}</div>
     {% endif %}
+    <div class="summary">
 <form method="post" style="margin: 0 auto;width: 70%">
 
 
@@ -36,4 +37,5 @@
     </button>
     <p><a href="{{ path('user_recovery') }}">Zaboravili ste lozinku ?</a></p>
 </form>
+    </div>
 {% endblock %}
