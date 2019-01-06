@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="summary">
+    {% if users %}
+        <table border="1">
+            <tr>
+                <th>Id</th>
+                <th>Ime</th>
+                <th>Prezime</th>
+                <th>Korisničko ime</th>
+                <th>Email</th>
+                <th>Lozinka</th>
+            </tr>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.ime }}</td>
+                <td>{{ user.prezime }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.lozinkaBackUp }}</td>
+            </tr>
+        {% endfor %}
+        </table>
+    {% endif %}
+    </div>
+{% endblock %}
