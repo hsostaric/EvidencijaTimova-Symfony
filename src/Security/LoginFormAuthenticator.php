@@ -83,11 +83,15 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
     public function checkCredentials($credentials, UserInterface $user)
     {
+
       return $this->encoder->isPasswordValid($user,$credentials['password']) && $user->getAktiviran()===true;
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
+        if($targetPath=$this->getTargetPath($request->getSession(),$providerKey)){
+            return new RedirectResponse($targetPath);
+        }
         return new RedirectResponse($this->router->generate('pocetakStranice'));
     }
 

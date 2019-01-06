@@ -76,11 +76,13 @@ class KorisnikController extends AbstractController
             $korisnik=$korisnikRepository->PronalazakKorisnika($request->request->get('username'));
 
             if(!empty($korisnik)){
-                if(strcmp($korisnik[0]->getAktivacijskiKod(),$request->request->get('potvrdniKod')) && empty($korisnik[0]->getAktiviran())){
+                if($korisnik[0]->getAktivacijskiKod()===$request->request->get('potvrdniKod') && $korisnik[0]->getAktiviran()===false){
                     $repository=$this->getDoctrine()->getManager();
                     $korisnik[0]->setAktiviran(true);
+                    $korisnik[0]->setRoles(["Prijavljen_Korisnik"]);
                     $repository->persist($korisnik[0]);
                     $repository->flush();
+
                     return $this->redirectToRoute('pocetakStranice');
                 }
                 else $greske[]="Aktivacijski kod se ne podudara sa generiranim/korisnik je već aktiviran";
