@@ -3,6 +3,7 @@
 namespace App\Security;
 
 use App\Entity\Korisnik;
+use App\Repository\KorisnikRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,76 +22,77 @@ use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
 class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 {
+
+
     use TargetPathTrait;
-
-    private $entityManager;
+    /**
+     * @var KorisnikRepository
+     */
+    private $korisnikRepository;
+    /**
+     * @var RouterInterface
+     */
     private $router;
+    /**
+     * @var CsrfTokenManagerInterface
+     */
     private $csrfTokenManager;
-    private $passwordEncoder;
+    /**
+     * @var UserPasswordEncoderInterface
+     */
+    private $encoder;
 
-    public function __construct(EntityManagerInterface $entityManager, RouterInterface $router, CsrfTokenManagerInterface $csrfTokenManager, UserPasswordEncoderInterface $passwordEncoder)
+    public function __construct(KorisnikRepository $korisnikRepository, RouterInterface $router, CsrfTokenManagerInterface $csrfTokenManager, UserPasswordEncoderInterface $encoder)
     {
-        $this->entityManager = $entityManager;
+
+        $this->korisnikRepository = $korisnikRepository;
         $this->router = $router;
         $this->csrfTokenManager = $csrfTokenManager;
-        $this->passwordEncoder = $passwordEncoder;
+        $this->encoder = $encoder;
     }
+
 
     public function supports(Request $request)
     {
-        return 'app_login' === $request->attributes->get('_route')
-            && $request->isMethod('POST');
+
+         return 'user_login'===$request->attributes->get('_route') && $request->isMethod('POST');
     }
 
     public function getCredentials(Request $request)
     {
-        $credentials = [
-            'username' => $request->request->get('username'),
-            'password' => $request->request->get('password'),
+        $credentials=array(
+          'username'=>$request->request->get('username'),
+          'password'=>$request->request->get('password'),
             'csrf_token' => $request->request->get('_csrf_token'),
-        ];
-        $request->getSession()->set(
-            Security::LAST_USERNAME,
-            $credentials['username']
-        );
+      );
+
+        $request->getSession()->set(Security::LAST_USERNAME,$credentials['username']);
 
         return $credentials;
     }
 
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
-        $token = new CsrfToken('authenticate', $credentials['csrf_token']);
+        $token = new CsrfToken('authenticate',$credentials['csrf_token']);
         if (!$this->csrfTokenManager->isTokenValid($token)) {
             throw new InvalidCsrfTokenException();
         }
-
-        $user = $this->entityManager->getRepository(Korisnik::class)->findOneBy(['username' => $credentials['username']]);
-
-        if (!$user) {
-            // fail authentication with a custom error
-            throw new CustomUserMessageAuthenticationException('Username could not be found.');
-        }
-
-        return $user;
+        $users=$this->korisnikRepository->findOneBy(['username'=>$credentials['username']]);
+        return $users;
     }
 
     public function checkCredentials($credentials, UserInterface $user)
     {
-        return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
+      return $this->encoder->isPasswordValid($user,$credentials['password']) && $user->getAktiviran()===true;
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
-        if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
-            return new RedirectResponse($targetPath);
-        }
-
-        // For example : return new RedirectResponse($this->router->generate('some_route'));
-        throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
+        return new RedirectResponse($this->router->generate('pocetakStranice'));
     }
 
     protected function getLoginUrl()
     {
-        return $this->router->generate('app_login');
+       return $this->router->generate('user_login');
     }
 }

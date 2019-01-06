@@ -14,6 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use RandomStringGenerator\RandomStringGenerator;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 
 class KorisnikController extends AbstractController
@@ -89,4 +90,6 @@ class KorisnikController extends AbstractController
         return $this->render('security/potvrdaKoda.html.twig',['errors'=>$greske,
             ]);
     }
+
+
 }

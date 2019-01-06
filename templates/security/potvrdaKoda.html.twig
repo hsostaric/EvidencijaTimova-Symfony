@@ -16,9 +16,9 @@ Potvrda registracije
             Pošalji
         </button>
     </form>
-    {% if greska %}
-    {% for greska in errors %}
-        <p>{% greska %}</p><br>
-    {% endfor %}
+    {% if errors %}
+        {% for greska in errors %}
+            <p>{{ greska }}</p><br>
+        {% endfor %}
     {% endif %}
 {% endblock %}
