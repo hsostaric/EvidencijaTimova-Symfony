@@ -114,14 +114,12 @@ class StudentController extends AbstractController
         $studentForDelete= $studentRepository->findOneBy(['id'=>$id]);
         $tim=null;
         $em=$this->getDoctrine()->getManager();
-        if (empty($studentForDelete->getTim())){
-            $em->remove($studentForDelete);
-        }
-        else{
+        if (!empty($studentForDelete->getTim())){
             $tim=$studentForDelete->getTim();
             $tim->removeStudent($studentForDelete);
-            $em->remove($studentForDelete);
         }
+            $em->remove($studentForDelete);
+
         $em->flush();
         return $this->redirectToRoute('student_list');
     }
