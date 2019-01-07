@@ -90,6 +90,7 @@ class StudentController extends AbstractController
     public function AzurirajStudenta(Request $request,StudentRepository $studentRepository, TimRepository $timRepository,$slug){
         $studentZaUpdate=$studentRepository->findOneBy(['id'=>$slug]);
         $timovi=$timRepository->findAll();
+        $trenutniTim=null;
         if($request->isMethod('POST')){
                 $em=$this->getDoctrine()->getManager();
                 $tim=$studentZaUpdate->getTim();
@@ -101,7 +102,12 @@ class StudentController extends AbstractController
                         $em->persist($studentZaUpdate);
                     }
                     else{
-                        $trenutniTim=$timRepository->findOneBy(['oznakaTima'=>$request->request->get('timStudenta')]);
+                        foreach ($timovi as $team){
+                            if($team->getOznakaTima()==$request->request->get('timStudenta')){
+                                $trenutniTim=$team;
+                                break;
+                            }
+                        }
                         $trenutniTim->addStudent($studentZaUpdate);
                         $em->persist($trenutniTim);
                     }
