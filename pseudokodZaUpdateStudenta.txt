@@ -1,0 +1,17 @@
+ako odabrani student ima tim{
+	ako se tim postavlja na null{
+		makni studenta iz tima i updejtaj potencijalne promjene;
+	}
+	ako se mjenja u drugi tim{
+		makni studenta iz trenutnog tima, updejtaj promjene, dodaj ga u drugi tim;
+	}
+}
+ako odabrani student nema tim {
+	ako ga i dalje nema{
+		updejtaj postojećeg studenta i pohrani promjene u bazu
+	}
+	ako se dogodi da se dodaje u tim{
+		updejtaj studenta sa novim podacima;
+		dodaj ga ga u novi tim i pohrani promjene;
+	}
+}
