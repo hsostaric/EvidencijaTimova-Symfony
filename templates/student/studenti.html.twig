@@ -37,7 +37,8 @@
 
                             <td><p class="btn btn-warning" ><a href="#">Update</a></p>
                                 <p class="btn btn-danger" ><a href="#">Delete</a></p>
-                                <p class="btn btn-dark" ><a href="#">Pridruži timu</a></p>
+                                {% if student.tim|length <1 %} <p class="btn btn-dark" ><a href="{{ path("student_to_team",{ slug: student.id}) }}">Pridruži timu</a></p>
+                                {% endif %}
                             </td>
                         </tr>
                     {% endfor %}

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Student;
 use App\Repository\StudentRepository;
+use App\Repository\TimRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -56,10 +57,31 @@ class StudentController extends AbstractController
     }
 
     /**
-     * @Route('/studenti/{slug}/pridruzi-timu', name="student_to_team");
+     * @Route("/studenti/pridruzi-timu/{slug}", name="student_to_team");
      */
-    public function PridruziTimStudentu(Request $request){
+    public function PridruziTimStudentu(Request $request,TimRepository $timRepository,StudentRepository $studentRepository,$slug){
+        $timovi=$timRepository->findAll();
+        $student=$studentRepository->findOneBy(['id'=>$slug]);
 
+        $odabraniTim=null;
+        if ($request->isMethod('POST')){
+            foreach($timovi as $tim){
+                if($tim->getOznakaTima()===$request->request->get('oznakaTima')){
+                    $odabraniTim=$tim;
+                    break;
+                }
+            }
+            $em=$this->getDoctrine()->getManager();
+            $odabraniTim->addStudent($student);
+            $em->persist($odabraniTim);
+            $em->flush();
 
+            return $this->redirectToRoute('student_list');
+
+        }
+        return $this->render('student\pridruziTimu.html.twig',
+            [
+                'teams'=>$timovi,
+            ]);
     }
 }

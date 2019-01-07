@@ -23,11 +23,7 @@
             <textarea autofocus rows="10" cols="100" name="napomena" id="napomena" maxlength="400" placeholder="Unesite napomenu"></textarea><br>
             <button type="submit">Dodaj studenta</button>
         </form>
-        {% if errors %}
-            {% for greska in errors %}
-                <p>{{ greska }}</p><br>
-            {% endfor %}
-        {% endif %}
+
     </div>
 
 {% endblock %}

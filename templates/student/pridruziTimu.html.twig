@@ -5,15 +5,22 @@
 
 {% block body %}
     <div class="summary">
-        <h2>Pridruživanje odabranog studenta timu</h2>
+
+
+        {% if teams|length > 0 %}
+        <h2>Pridruživanje odabranog studenta timu</h2><br>
         <form method="post">
             <label for="oznakaTima">Oznaka tima</label><br>
             <select name="oznakaTima" id="oznakaTima">
-                <option selected value="Redovni">Redovni</option>
-                <option value="Izvanredni">Izvanredni</option>
-            </select>
+                {% for team in teams %}
+                <option  value="{{ team.oznakaTima }}">{{ team.oznakaTima }}</option>
+
+                {% endfor %}
+            </select><br>
             <button type="submit">Pridruži studenta timu</button>
         </form>
-
+        {% else %}
+            <h2>U bazi nema timova !!!!</h2>
+      {% endif %}
     </div>
 {% endblock %}
