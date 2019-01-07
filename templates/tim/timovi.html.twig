@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    Popis Timova
+{% endblock %}
+
+
+{% block body %}
+    <div class="summary">
+        <h3>Operacije sa timovima</h3>
+        {% if teams %}
+            <form method="POST">
+                <button name="kreiranjeTima"class="btn btn-primary" type="submit">Kreiraj tim</button>
+                <table border="1">
+                    <tr>
+                        <th>Id</th>
+                        <th>Oznaka Tima</th>
+                        <th>Naziv projekta</th>
+                        <th>Opis projekta</th>
+                        <th>Napomena</th>
+                        <th>Članovi tima</th>
+                        <th>Operacije</th>
+                    </tr>
+                    {% for team in teams %}
+                        <tr>
+                            <td>{{ team.id }}</td>
+                            <td>{{ team.oznakaTima }}</td>
+                            <td>{{ team.nazivProjekta }}</td>
+                            <td>{{ team.opisProjekta }}</td>
+                            <td>{{ team.napomena }}</td>
+                            <td><a href="#">Detalji( članovi )</a></td>
+                            <td><p class="btn btn-warning" ><a>Update</a></p>
+                                <p class="btn btn-danger" ><a>Delete</a></p>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </form>
+        {% endif %}
+    </div>
+{% endblock %}
