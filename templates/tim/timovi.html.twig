@@ -29,7 +29,7 @@
                             <td>{{ team.napomena }}</td>
                             <td><a href="{{ path("students_in_team",{ id: team.id}) }}">Detalji( članovi )</a></td>
                             <td><p class="btn btn-warning" ><a href="{{ path("update_team",{ id: team.id}) }}">Update</a></p>
-                                <p class="btn btn-danger" ><a>Delete</a></p>
+                                <p class="btn btn-danger" ><a href="{{ path("delete_team",{ id: team.id}) }}">Delete</a></p>
                             </td>
                         </tr>
                     {% endfor %}

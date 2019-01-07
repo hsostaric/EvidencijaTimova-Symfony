@@ -7,6 +7,7 @@ use App\Repository\TimRepository;
 use Doctrine\DBAL\Types\TimeImmutableType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\FrameworkBundle\Tests\Fixtures\Validation\Article;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -89,6 +90,21 @@ class TimController extends AbstractController
         }
         return $this->render('tim\updateTeam.html.twig',['team'=>$tim,
             'errors'=>$greske]);
+    }
+    /**
+     * @Route("timovi/delete/{id}", name="delete_team");
+     * @IsGranted("ROLE_USER")
+     */
+    public function deleteTeam($id,TimRepository $timRepository){
+
+        $timZaBrisanje=$timRepository->findOneBy(['id'=>$id]);
+        if(empty(count($timZaBrisanje->getStudents()))){
+            $em=$this->getDoctrine()->getManager();
+            $em->remove($timZaBrisanje);
+            $em->flush();
+            return $this->redirectToRoute('popis_timova');
+        }
+        return $this->redirectToRoute('popis_timova');
     }
 
 }
