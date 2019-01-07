@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    Azuriranje tima
+{% endblock %}
+{% block body %}
+<div class="summary">
+    <h2>Azuriranje tima {{ team.oznakaTima}}</h2>
+    {% if errors %}
+        {% for greska in errors %}
+            <p>{{ greska }}</p><br>
+        {% endfor %}
+    {% endif %}
+    <form method="post">
+        <label for="oznakaTima">Oznaka tima</label><br>
+        <input value="{{ team.oznakaTima }}" type="text" name="oznakaTima" id="oznakaTima" required autofocus placeholder="Unesite oznaku tima"><br>
+        <label for="nazivProjekta">Naziv projekta</label><br>
+        <input value="{{ team.nazivProjekta }}" type="text" name="nazivProjekta" id="nazivProjekta" required autofocus placeholder="Unesite naziv tima"><br>
+        <label for="opisProjekta">Opis projekta</label><br>
+        <textarea value="{{ team.opisProjekta }}" autofocus rows="10" cols="100" name="opisProjekta" maxlength="400" placeholder="Unesite opis projekta" ></textarea><br>
+        <label for="napomena">Napomena</label><br>
+
+        <textarea value="{{ team.napomena }} "autofocus rows="10" cols="100" name="napomena" maxlength="400" placeholder="Unesite napomenu"></textarea><br>
+        <button type="submit">Ažuriraj artikl</button>
+
+    </form>
+</div>
+{% endblock %}

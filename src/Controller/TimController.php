@@ -72,6 +72,23 @@ class TimController extends AbstractController
      * @Route("timovi/azuriraj/{id}", name="update_team");
      * @IsGranted("ROLE_USER")
      */
+    public function UpdateTeam($id,TimRepository $timRepository,Request $request){
+        $greske=array();
+        $tim= $timRepository->findOneBy(['id'=>$id]);
+        if ($request->isMethod('POST')){
+            $pom=$timRepository->findOneBy(['oznakaTima'=>$request->request->get('oznakaTima')]);
+            if(!empty($pom))$greske[]="Novo ime tima već postoji";
+            else{
+                $tim->setOznakaTima($request->request->get('oznakaTima'))->setNazivProjekta($request->request->get('nazivProjekta'))->setOpisProjekta($request->request->get('opisProjekta'))->setNapomena($request->request->get('napomena'));
 
+                $em=$this->getDoctrine()->getManager();
+                $em->persist($tim);
+                $em->flush();
+                return $this->redirectToRoute('popis_timova');
+            }
+        }
+        return $this->render('tim\updateTeam.html.twig',['team'=>$tim,
+            'errors'=>$greske]);
+    }
 
 }
