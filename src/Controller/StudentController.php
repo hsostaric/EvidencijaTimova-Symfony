@@ -84,4 +84,39 @@ class StudentController extends AbstractController
                 'teams'=>$timovi,
             ]);
     }
+    /**
+     * @Route("/studenti/azuriraj-studenta/{slug}", name="update_student");
+     */
+    public function AzurirajStudenta(Request $request,StudentRepository $studentRepository, TimRepository $timRepository,$slug){
+        $studentZaUpdate=$studentRepository->findOneBy(['id'=>$slug]);
+        $timovi=$timRepository->findAll();
+        $noviTim=null;
+        if($request->isMethod('POST')){
+
+            if ($request->request->get('timStudenta')=='null')$noviTim=null;
+            else{
+                foreach ($timovi as $tim){
+                    if($tim->getOznakaTima()===$request->request->get('timStudenta')){
+                        $noviTim=$tim;
+                        break;
+                    }
+                }
+                $em=$this->getDoctrine()->getManager();
+
+                $studentZaUpdate->setIme($request->request->get('imeStudenta'))->setPrezime($request->request->get("prezimeStudenta"))->setEmail($request->request->get("emailKorisnika"))
+                    ->setStatus($request->request->get('statusStudenta'))->setNapomena($request->request->get('napomena'));
+
+               $em->persist($studentZaUpdate);
+
+
+                $em->flush();
+
+                return $this->redirectToRoute('student_list');
+            }
+        }
+        return $this->render('student/updateStudent.html.twig',
+            ['student'=>$studentZaUpdate,
+              'teams'=>$timovi,
+                ]);
+    }
 }
