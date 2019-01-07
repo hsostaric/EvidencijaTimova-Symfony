@@ -90,25 +90,28 @@ class StudentController extends AbstractController
     public function AzurirajStudenta(Request $request,StudentRepository $studentRepository, TimRepository $timRepository,$slug){
         $studentZaUpdate=$studentRepository->findOneBy(['id'=>$slug]);
         $timovi=$timRepository->findAll();
-        $tim=null;
         if($request->isMethod('POST')){
                 $em=$this->getDoctrine()->getManager();
+                $tim=$studentZaUpdate->getTim();
                 if(!empty($studentZaUpdate->getTim())){
-                    $tim=$studentZaUpdate->getTim();
                     $tim->removeStudent($studentZaUpdate);
                     $studentZaUpdate->setIme($request->request->get('imeStudenta'))->setPrezime($request->request->get("prezimeStudenta"))->setEmail($request->request->get("emailKorisnika"))
                         ->setStatus($request->request->get('statusStudenta'))->setNapomena($request->request->get('napomena'));
-                    $tim->addStudent($studentZaUpdate);
-                    $em->persist($tim);
+                    if (empty($request->request->get('timStudenta'))){
+                        $em->persist($studentZaUpdate);
+                    }
+                    else{
+                        $trenutniTim=$timRepository->findOneBy(['oznakaTima'=>$request->request->get('timStudenta')]);
+                        $trenutniTim->addStudent($studentZaUpdate);
+                        $em->persist($trenutniTim);
+                    }
                 }
-                $studentZaUpdate->setIme($request->request->get('imeStudenta'))->setPrezime($request->request->get("prezimeStudenta"))->setEmail($request->request->get("emailKorisnika"))
-                    ->setStatus($request->request->get('statusStudenta'))->setNapomena($request->request->get('napomena'));
 
-                $em->persist($studentZaUpdate);
+
                 $em->flush();
-
                 return $this->redirectToRoute('student_list');
             }
+
 
         return $this->render('student/updateStudent.html.twig',
             ['student'=>$studentZaUpdate,
