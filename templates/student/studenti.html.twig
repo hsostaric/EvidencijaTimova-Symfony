@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Popis studenata {% endblock %}
+
+{% block body %}
+    <div class="summary">
+        <h3>Operacije sa timovima</h3>
+        {% if students %}
+            <form method="POST">
+                <button name="kreiranjeStudenta"class="btn btn-primary" type="submit">Kreiraj studenta</button>
+                <table border="1">
+                    <tr>
+                        <th>Id</th>
+                        <th>Ime</th>
+                        <th>Prezime</th>
+                        <th>Status studenta</th>
+                        <th>Email</th>
+                        <th>Napomena</th>
+                        <th>Pripadnost timu</th>
+                        <th>Operacije</th>
+                    </tr>
+                    {% for student in students %}
+                        <tr>
+                            <td>{{ student.id }}</td>
+                            <td>{{ student.ime }}</td>
+                            <td>{{ student.prezime }}</td>
+                            <td>{{ student.status }}</td>
+                            <td>{{ student.email }}</td>
+                            <td>{{ student.napomena }} </td>
+                            <td>{% if student.tim|length>0 %}
+                                        {{ student.tim.oznakaTima }}
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+
+
+                            <td><p class="btn btn-warning" ><a href="#">Update</a></p>
+                                <p class="btn btn-danger" ><a href="#">Delete</a></p>
+                                <p class="btn btn-dark" ><a href="#">Pridruži timu</a></p>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </form>
+        {% endif %}
+    </div>
+{% endblock %}

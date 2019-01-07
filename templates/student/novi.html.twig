@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Kreiraj studenata {% endblock %}
+
+{% block body %}
+
+    <div class="summary">
+        <h2>Novi Student</h2>
+        <form method="post">
+            <label for="imeStudenta">Ime </label><br>
+            <input type="text" size="60" name="imeStudenta" id="imeStudenta" required autofocus placeholder="Unesite  ime studenta"><br>
+            <label for="nazivProjekta">Prezime</label><br>
+            <input type="text" size="60" name="prezimeStudenta" id="prezimeStudenta" required autofocus placeholder="Unesite prezime studenta"><br>
+            <label for="statusStudenta">Status studenta</label><br>
+            <select name="statusStudenta" id="statusStudenta">
+                <option selected value="Redovni">Redovni</option>
+                <option value="Izvanredni">Izvanredni</option>
+            </select>
+            <br>
+            <label for="email">Email</label><br>
+            <input type="email" size="60" required name="emailKorisnika" id="emailKorisnika" autofocus><br>
+            <label for="napomena">Napomena</label><br>
+            <textarea autofocus rows="10" cols="100" name="napomena" id="napomena" maxlength="400" placeholder="Unesite napomenu"></textarea><br>
+            <button type="submit">Dodaj studenta</button>
+        </form>
+        {% if errors %}
+            {% for greska in errors %}
+                <p>{{ greska }}</p><br>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+{% endblock %}

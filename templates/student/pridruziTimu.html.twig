@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+   Pridruživanje studenta timu
+{% endblock %}
+
+{% block body %}
+    <div class="summary">
+        <h2>Pridruživanje odabranog studenta timu</h2>
+        <form method="post">
+            <label for="oznakaTima">Oznaka tima</label><br>
+            <select name="oznakaTima" id="oznakaTima">
+                <option selected value="Redovni">Redovni</option>
+                <option value="Izvanredni">Izvanredni</option>
+            </select>
+            <button type="submit">Pridruži studenta timu</button>
+        </form>
+
+    </div>
+{% endblock %}
