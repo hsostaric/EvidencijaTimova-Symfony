@@ -34,6 +34,7 @@ class TimController extends AbstractController
 
     /**
      * @Route("/noviTim",name="kreiranje_tima");
+     * @IsGranted("ROLE_USER")
      */
     public function kreirajTim(Request $request,TimRepository $timRepository){
         $greske=array();
@@ -57,11 +58,20 @@ class TimController extends AbstractController
         return $this->render('tim\novi.html.twig',['errors'=>$greske]);
     }
     /**
-     * @Route(timovi/clanovi/{slug});
+     * @Route("timovi/clanovi/{id}", name="students_in_team");
+     * @IsGranted("ROLE_USER")
      */
-    public function PrikazClanova(Tim $tim){
+    public function PrikazClanova($id,TimRepository $timRepository){
+        $tim=$timRepository->findOneBy(['id'=>$id]);
+
         return $this->render('tim\clanovi.html.twig',
             ['team'=>$tim]);
     }
+
+    /**
+     * @Route("timovi/azuriraj/{id}", name="update_team");
+     * @IsGranted("ROLE_USER")
+     */
+
 
 }

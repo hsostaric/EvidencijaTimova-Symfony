@@ -1,8 +1,34 @@
 {% extends 'base.html.twig' %}
 {% block title %}
-    Clanovi tima {{  }}
+    Clanovi tima
 {% endblock %}
 
 {% block body %}
+<div class="summary">
+    {% if team.students|length >0 %}
+        <h2>Članovi tima {{ team.oznakaTima }}</h2>
+    <table border="1">
+        <tr>
+            <th>Id</th>
+            <th>Ime</th>
+            <th>Prezime</th>
+            <th>Status</th>
+            <th>Email</th>
 
+        </tr>
+        {% for student in team.students %}
+            <tr>
+                <td>{{ student.id }}</td>
+                <td>{{ student.ime }}</td>
+                <td>{{ student.prezime }}</td>
+                <td>{{ student.status }}</td>
+                <td>{{ student.email }}</td>
+
+            </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+        <h4>Odabrani tim nema studenata</h4>
+    {% endif %}
+</div>
 {% endblock %}
