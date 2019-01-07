@@ -106,4 +106,23 @@ class StudentController extends AbstractController
               'teams'=>$timovi,
                 ]);
     }
+
+    /**
+     * @Route("studenti/delete/{id}", name="delete_student");
+     */
+    public function DeleteStudent($id,StudentRepository $studentRepository){
+        $studentForDelete= $studentRepository->findOneBy(['id'=>$id]);
+        $tim=null;
+        $em=$this->getDoctrine()->getManager();
+        if (empty($studentForDelete->getTim())){
+            $em->remove($studentForDelete);
+        }
+        else{
+            $tim=$studentForDelete->getTim();
+            $tim->removeStudent($studentForDelete);
+            $em->remove($studentForDelete);
+        }
+        $em->flush();
+        return $this->redirectToRoute('student_list');
+    }
 }
