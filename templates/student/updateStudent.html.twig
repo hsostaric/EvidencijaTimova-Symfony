@@ -20,14 +20,14 @@
             <input type="email" value="{{ student.email }}" size="60" required name="emailKorisnika" id="emailKorisnika" autofocus><br>
             <label for="napomena">Napomena</label><br>
             <textarea autofocus value="{{ student.napomena }}" rows="10" cols="100" name="napomena" id="napomena" maxlength="400" placeholder="Unesite napomenu"></textarea><br>
-          {# {% if student.tim|length > 0 %}
+           {# {% if student.tim|length > 0 %}
                 <select name="timStudenta" id="timStudenta">
-                    <option selected value="null">-</option>
+                    <option selected value="">-</option>
                     {% for team in teams %}
                     <option value="{{ team.oznakaTima }}">{{ team.oznakaTima }}</option>
                     {% endfor %}
                 </select>
-            {% endif %} #}
+            {% endif %}#}
             <button type="submit">Ažuriraj studenta</button>
         </form>
 
