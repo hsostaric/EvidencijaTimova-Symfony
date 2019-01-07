@@ -25,8 +25,8 @@ class PersonalAccountController extends AbstractController
     /**
      * @Route("/profil/{id}", name="user_personal");
      */
-    public function perosnalAccount($id){
-        $logiraniKorisnik=$this->getDoctrine()->getManager()->getRepository(Korisnik::class)->findOneBy(['id'=>$id]);
+    public function perosnalAccount($id,KorisnikRepository $korisnikRepository){
+        $logiraniKorisnik = $korisnikRepository->findOneBy(['id'=>$id]);
 
         return $this->render("personal/personalpage.html.twig",[
             'user'=>$logiraniKorisnik,
