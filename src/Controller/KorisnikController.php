@@ -10,6 +10,7 @@ use App\Service\MailSender;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
@@ -26,6 +27,7 @@ class KorisnikController extends AbstractController
      */
     public function registracija(\Swift_Mailer $mailer,Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, LoginFormAuthenticator $formAuthenticator,KorisnikRepository $korisnikRepository){
         $greske=array();
+
         $form=$this->createForm(RegistrationForm::class);
 
        $form->handleRequest($request);
@@ -79,7 +81,7 @@ class KorisnikController extends AbstractController
                 if($korisnik[0]->getAktivacijskiKod()===$request->request->get('potvrdniKod') && $korisnik[0]->getAktiviran()===false){
                     $repository=$this->getDoctrine()->getManager();
                     $korisnik[0]->setAktiviran(true);
-                    $korisnik[0]->setRoles(["Prijavljen_Korisnik"]);
+                   // $korisnik[0]->setRoles(["Prijavljen_Korisnik"]);
                     $repository->persist($korisnik[0]);
                     $repository->flush();
 
@@ -90,7 +92,8 @@ class KorisnikController extends AbstractController
             }
             else $greske[]="Korisnicko ime nije pronadjeno u bazi.";
         }
-        return $this->render('security/potvrdaKoda.html.twig',['errors'=>$greske,
+        return $this->render('security/potvrdaKoda.html.twig',[
+            'errors'=>$greske,
             ]);
     }
 

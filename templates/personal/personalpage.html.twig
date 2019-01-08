@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-    <div class="summary">
+    <div class="summary" style="padding-left: 10%;">
         {%  if user %}
             <h2>Korisnik: </h2>
 
@@ -46,6 +46,25 @@
                 </tr>
             </table>
         {%  endif %}
+    </div>
+
+    <div class="summary"style="padding-left:12px">
+        <h2>
+            Promjena lozinke</h2>
+            <form method="POST" style="padding-top: 10px">
+                <label  for="staraLozinka">Stara lozinka</label>
+                <input  type="password" size="60" name="staraLozinka" id="staraLozinka" required autofocus><br>
+                <label  for="novaLozinka">Nova lozinka</label>
+                <input  type="password" size="60" name="novaLozinka" id="novaLozinka" required autofocus><br>
+                <label for="ponovljenaLozinka">Ponovljena lozinka</label>
+                <input  type="password" size="60" name="ponovljenaLozinka" id="ponovljenaLozinka" required autofocus><br><br>
+                <button class="btn btn-warning" type="submit">Promjeni</button>
+            </form>
+        {% if errors %}
+            {% for greska in errors %}
+                <p>{{ greska }}</p><br>
+            {% endfor %}
+        {% endif %}
     </div>
 
 {% endblock %}
