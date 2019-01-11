@@ -63,6 +63,16 @@ class Korisnik implements UserInterface
      */
     private $lozinkaBackUp;
 
+    /**
+     * @ORM\Column(type="integer" )
+     */
+    private $pokusajPrijave = 0;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $blokiran = false;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -204,6 +214,30 @@ class Korisnik implements UserInterface
     public function setLozinkaBackUp(string $lozinkaBackUp): self
     {
         $this->lozinkaBackUp = $lozinkaBackUp;
+
+        return $this;
+    }
+
+    public function getPokusajPrijave(): ?int
+    {
+        return $this->pokusajPrijave;
+    }
+
+    public function setPokusajPrijave(int $pokusajPrijave): self
+    {
+        $this->pokusajPrijave = $pokusajPrijave;
+
+        return $this;
+    }
+
+    public function getBlokiran(): ?bool
+    {
+        return $this->blokiran;
+    }
+
+    public function setBlokiran(bool $blokiran): self
+    {
+        $this->blokiran = $blokiran;
 
         return $this;
     }

@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
@@ -41,14 +42,19 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
      * @var UserPasswordEncoderInterface
      */
     private $encoder;
+    /**
+     * @var EntityManagerInterface
+     */
+    private $entityManager;
 
-    public function __construct(KorisnikRepository $korisnikRepository, RouterInterface $router, CsrfTokenManagerInterface $csrfTokenManager, UserPasswordEncoderInterface $encoder)
+    public function __construct(KorisnikRepository $korisnikRepository, RouterInterface $router, CsrfTokenManagerInterface $csrfTokenManager, UserPasswordEncoderInterface $encoder,EntityManagerInterface $entityManager)
     {
 
         $this->korisnikRepository = $korisnikRepository;
         $this->router = $router;
         $this->csrfTokenManager = $csrfTokenManager;
         $this->encoder = $encoder;
+        $this->entityManager = $entityManager;
     }
 
 
@@ -85,7 +91,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     public function checkCredentials($credentials, UserInterface $user)
     {
 
-      return $this->encoder->isPasswordValid($user,$credentials['password']) && $user->getAktiviran()===true;
+      return $this->encoder->isPasswordValid($user,$credentials['password']) && $user->getAktiviran()===true && $user->getBlokiran() === false;
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
@@ -94,6 +100,19 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
             return new RedirectResponse($targetPath);
         }
         return new RedirectResponse($this->router->generate('pocetakStranice'));
+    }
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
+    {
+        $korisnik = $this->korisnikRepository->findOneBy([
+            'username'=>$request->request->get('username')
+        ]);
+        if(!empty($korisnik) && $korisnik->getPokusajPrijave()<=3 && $korisnik->getBlokiran()===false){
+            $korisnik->setPokusajPrijave($korisnik->getPokusajPrijave()+1);
+            if($korisnik->getPokusajPrijave() === 3)$korisnik->setBlokiran(true);
+            $this->entityManager->persist($korisnik);
+            $this->entityManager->flush();
+
+        }
     }
 
     protected function getLoginUrl()

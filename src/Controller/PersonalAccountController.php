@@ -60,15 +60,7 @@ class PersonalAccountController extends AbstractController
         if($novalozinka == $ponovljenalozinka)return true;
         return false;
     }
-    /**
-     * @Route("/allUsers", name="all_users");
-     */
-    public function show(KorisnikRepository $korisnikRepository){
-        $korisnici=$korisnikRepository->findAll();
-        return $this->render('personal/allUsers.html.twig',[
-            'users'=>$korisnici,
-        ]);
-    }
+   
 
 
 

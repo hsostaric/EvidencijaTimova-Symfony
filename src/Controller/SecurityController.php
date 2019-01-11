@@ -21,9 +21,12 @@ class SecurityController extends AbstractController
      * @param AuthenticationUtils $authenticationUtils
      * @return Response
      */
-    public function Login(AuthenticationUtils $authenticationUtils){
+    public function Login(AuthenticationUtils $authenticationUtils,Request $request){
         $zadnjiLogin=$authenticationUtils->getLastUsername();
         $greske=$authenticationUtils->getLastAuthenticationError();
+        if($request->isMethod('POST')){
+
+        }
         return $this->render('security/login.html.twig',[
             'lastLogin'=>$zadnjiLogin,
             'errors'=>$greske,

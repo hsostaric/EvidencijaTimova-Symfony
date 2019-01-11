@@ -44,7 +44,7 @@ class KorisnikController extends AbstractController
                     ->setEmail($novi["Email"])
                     ->setUsername($novi["Username"])
                     ->setAktiviran(false)
-                    ->setAktivacijskiKod($generiraniKod);
+                    ->setAktivacijskiKod($generiraniKod)->setRoles('ROLE_ADMIN');
                 $entityManager=$this->getDoctrine()->getManager();
                 $entityManager->persist($noviKorisnik);
                 $entityManager->flush();

@@ -8,6 +8,12 @@ parameters:
 
 services:
     # default configuration for services in *this* file
+    admin.category:
+        class: App\Admin\Admin
+        arguments: [~, App\Entity\Korisnik, ~]
+        tags:
+        - { name: sonata.admin, manager_type: orm, label: Korisnik }
+
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
