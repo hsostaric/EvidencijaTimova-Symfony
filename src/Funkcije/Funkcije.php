@@ -16,12 +16,17 @@ use Doctrine\ORM\EntityManagerInterface;
 class Funkcije
 {
 
-    public static function pohraniPromjene(EntityManagerInterface $entityManager,object $object){
-       $entityManager->persist($object);
-       $entityManager->flush();
+
+
+
+
+    public  function pohraniPromjene(EntityManagerInterface $entityManager,object $object){
+      $entityManager->persist($object);
+      $entityManager->flush();
     }
 
-    public  static function deleteEntity(EntityManagerInterface $entityManager, object $object){
+    public  function deleteEntity(EntityManagerInterface $entityManager, object $object){
+
         $entityManager->remove($object);
         $entityManager->flush();
 

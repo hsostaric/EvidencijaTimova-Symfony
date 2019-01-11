@@ -24,6 +24,7 @@ class KorisnikRepository extends ServiceEntityRepository
         return $qb;
     }
 
+
     // /**
     //  * @return Korisnik[] Returns an array of Korisnik objects
     //  */
