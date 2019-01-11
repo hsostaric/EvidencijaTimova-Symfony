@@ -7,6 +7,7 @@
         "ext-iconv": "*",
         "ngiusti/random-string-generator": "^1.0",
         "sensio/framework-extra-bundle": "^5.2",
+        "sonata-project/admin-bundle": "^3.43",
         "symfony/asset": "4.2.*",
         "symfony/console": "4.2.*",
         "symfony/dotenv": "4.2.*",
