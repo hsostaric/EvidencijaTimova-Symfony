@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-    <div class="summary">
+    <div class="summary" style="padding-right: 12px">
     {% if users %}
         <table border="1">
 
@@ -33,9 +33,24 @@
     {% endif %}
     </div>
 
-    <div class="summary">
+    <div class="summary" style="padding-left: 12px">
           {% if nonAdmini %}
-
+              <table border="1">
+                  <tr>
+                      <th>Ime</th>
+                      <th>Prezime</th>
+                      <th>Korisničko ime</th>
+                      <th>Dodijeli admina</th>
+                  </tr>
+                  {% for user in nonAdmini %}
+                      <tr>
+                          <td>{{ user.ime }}</td>
+                          <td>{{ user.prezime }}</td>
+                          <td>{{ user.username }}</td>
+                          <td><p class="btn btn-danger" ><a href="#">Dodijeli admina</a></p></td>
+                      </tr>
+                  {% endfor %}
+              </table>
           {% else %}
               <p>Nema raspoloživih kandidata</p>
           {% endif %}

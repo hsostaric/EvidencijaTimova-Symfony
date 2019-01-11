@@ -28,14 +28,17 @@ class AdminController extends AbstractController
      */
         public function DohvatiKorisnike(KorisnikRepository $korisnikRepository){
             $users = $korisnikRepository->findAll();
-
+            $uvjet=false;
             $nonAdmini=array();
             foreach ($users as $user){
+
                 foreach ($user->getRoles() as $role){
-                    if($role === "ROLE_ADMIN"){
-                        $nonAdmini[]=$user;
-                        break;
+                    $uvjet=false;
+                    if($role == "ROLE_ADMIN"){
+                       $uvjet=true;
+                       break;
                     }
+                    if ($uvjet===false)$nonAdmini[]=$user;
                 }
             }
             return $this->render('personal/allUsers.html.twig',['users'=>$users, 'nonAdmini'=>$nonAdmini]);
@@ -65,4 +68,6 @@ class AdminController extends AbstractController
             $em->pohraniPromjene($entityManager,$korisnik->setBlokiran(false));
             return $this->redirectToRoute('all_users');
         }
+
+        public
 }
